@@ -5,10 +5,47 @@ window = Tk()
 window.title("ATM")
 window.resizable(False, False) 
 
+# Field keys
+atmIdFieldKey = StringVar()
+
+# Variables for fields
+atmIdText = ""
+
+# To keep track of the SCREENS
+screenNumber = 0
+
 # Main frame
 mainFrame = Frame(window, bg='#D4D4D3')
 mainFrame.grid(columnspan=5)
 
+# For INTEGER buttons
+def pressButton(num):
+    global atmIdText
+    if screenNumber == 1:
+        atmIdText = atmIdText + str(num)
+        atmIdFieldKey.set(atmIdText)
+   
+
+# Page 1
+def goToPage1():
+    global globalPageKey, screenNumber
+    globalPageKey.destroy()
+
+    screenNumber = 1
+
+    page1 = LabelFrame(mainFrame, bg='Light blue')
+    page1.grid(columnspan=5, ipady=60, padx=10, pady=10)
+
+    globalPageKey = page1
+
+    atmId = Label(page1, text="ATM ID", bg='Light blue')
+    atmId.place(relx=0.4, rely=0.6, anchor='center')
+
+    atmIdField = Entry(page1, textvariable=atmIdFieldKey)
+    atmIdField.place(relx=0.6, rely=0.6, anchor='center')
+
+    atmIdSubmit = Button(page1, text='Next', bg='White', height=2, width=10)
+    atmIdSubmit.place(relx=0.5, rely=0.85, anchor='center')
 
 # Page 0
 page0 = LabelFrame(mainFrame, bg='Light blue')
@@ -22,7 +59,7 @@ welcomeText = Label(page0, text='Welcome to INAXIA bank atm', font=('Courier', 2
 welcomeText.place(relx=0.5, rely=0.35, anchor='center')
 
 # Next button
-nextbutton = Button(page0, text='Next', bg='White', height=2, width=10)
+nextbutton = Button(page0, text='Next', bg='White', height=2, width=10, command=lambda: goToPage1())
 nextbutton.place(relx=0.5, rely=0.65, anchor='center')
 
 
