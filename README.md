@@ -15,8 +15,12 @@ Ignore the errors and warnings, it won't bother you
 ## Youtube Demo video
 # https://youtu.be/UuKt6rzu5Bo
 
+## Presentation 
+# [Presentation](https://www.canva.com/design/DAEOyTF6q9U/28OHlkQtcUmQJAk1UGaZug/view?utm_content=DAEOyTF6q9U&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton)
+
 ## Demo video
 ![](demo.gif)
+
 
 
 # Thank You
