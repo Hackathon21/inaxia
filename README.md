@@ -21,6 +21,4 @@ Ignore the errors and warnings, it won't bother you
 ## Demo video
 ![](demo.gif)
 
-
-
 # Thank You
