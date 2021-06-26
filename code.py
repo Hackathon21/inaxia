@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
+import random
 
 window = Tk()
 window.title("ATM")
@@ -7,24 +8,135 @@ window.resizable(False, False)
 
 # Field keys
 atmIdFieldKey = StringVar()
+pinFieldKey = StringVar()
 
 # Variables for fields
 atmIdText = ""
+pinText = ""
+
+# Correct id and pin
+correctAtmId = '2020'
+correctPin = '6344'
 
 # To keep track of the SCREENS
 screenNumber = 0
+
+# Number list
+normalList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+shuffledList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
+# A global variable to use everywhere
+globalList = normalList
+
+# Functions of ENTER button
+def pressEnter():
+    if(screenNumber==0):
+        goToPage1()
+    elif(screenNumber==1):
+        goToPage2()
+    elif(screenNumber==2):
+        goToPage3()
+    elif(screenNumber==3):
+        window.destroy()
+
+# For creating color and number table
+class Table:
+    def __init__(self, page):
+        global globalList
+
+        random.shuffle(shuffledList)
+
+        if(screenNumber==1):
+            globalList = normalList
+        elif(screenNumber==2):
+            globalList = shuffledList
+
+        # take the data
+        lst = [('Red', globalList[0], img1),
+               ('Dark Green', globalList[1], img2),
+               ('Blue', globalList[2], img3),
+               ('Yellow', globalList[3], img4),
+               ('Brown', globalList[4], img5),
+               ('Orange', globalList[5], img6),
+               ('Purple', globalList[6], img7),
+               ('Grey', globalList[7], img8),
+               ('Pink', globalList[8], img9),
+               ('Light Green', globalList[9], img10)]
+
+        newFrame = Frame(page, bg='Light blue')
+        newFrame.grid(columnspan=5)
+
+        for i in range(2):
+            bgColor = ""
+            for j in range(10):
+                bgColor = lst[j][0]
+                lstimg = lst[j][2]
+                if(i==0):
+                    e = Label(newFrame, height=45, width=45, image=lstimg)
+                    e.grid(row=i, column=j)
+                else:
+                    e = Text(newFrame, height=2, width=5, fg='Black', font=('Ariel', 10), padx=8, pady=4)
+                    e.grid(row=i, column=j)
+                    e.insert(END, lst[j][i])
+
+# For INTEGER buttons
+def pressButton(num):
+    global atmIdText, pinText
+    if screenNumber == 1:
+        atmIdText = atmIdText + str(num)
+        atmIdFieldKey.set(atmIdText)
+    elif screenNumber == 2:
+        pinText = pinText + str(num)
+        pinFieldKey.set(pinText)
+
+# For CLEAR button
+def clearAll():
+    global atmIdText, pinText
+    if screenNumber == 1:
+        atmIdText = ""
+        atmIdFieldKey.set(atmIdText)
+    elif screenNumber == 2:
+        pinText = ""
+        pinFieldKey.set(pinText)
+
+# For BACKSPACE button
+def clearOne():
+    global atmIdText, pinText
+    if screenNumber == 1:
+        atmIdText = atmIdText[:-1]
+        atmIdFieldKey.set(atmIdText)
+    elif screenNumber == 2:
+        pinText = pinText[:-1]
+        pinFieldKey.set(pinText)
+
 
 # Main frame
 mainFrame = Frame(window, bg='#D4D4D3')
 mainFrame.grid(columnspan=5)
 
-# For INTEGER buttons
-def pressButton(num):
-    global atmIdText
-    if screenNumber == 1:
-        atmIdText = atmIdText + str(num)
-        atmIdFieldKey.set(atmIdText)
-   
+
+# Page 2
+def goToPage2():
+    global globalPageKey, screenNumber
+    globalPageKey.destroy()
+
+    screenNumber = 2
+
+    page2 = LabelFrame(mainFrame, bg='Light blue')
+    page2.grid(columnspan=5, ipady=60, padx=10, pady=10)
+
+    globalPageKey = page2
+
+    pin = Label(page2, text="PIN", bg='Light blue')
+    pin.place(relx=0.4, rely=0.6, anchor='center')
+
+    pinField = Entry(page2, textvariable=pinFieldKey)
+    pinField.place(relx=0.6, rely=0.6, anchor='center')
+
+    pinSubmit = Button(page2, text='Submit', bg='White', height=2, width=10)
+    pinSubmit.place(relx=0.5, rely=0.85, anchor='center')
+
+    p2 = Table(page2)
 
 # Page 1
 def goToPage1():
@@ -44,8 +156,10 @@ def goToPage1():
     atmIdField = Entry(page1, textvariable=atmIdFieldKey)
     atmIdField.place(relx=0.6, rely=0.6, anchor='center')
 
-    atmIdSubmit = Button(page1, text='Next', bg='White', height=2, width=10)
+    atmIdSubmit = Button(page1, text='Next', bg='White', height=2, width=10, command=lambda: goToPage2())
     atmIdSubmit.place(relx=0.5, rely=0.85, anchor='center')
+
+    p1 = Table(page1)
 
 # Page 0
 page0 = LabelFrame(mainFrame, bg='Light blue')
