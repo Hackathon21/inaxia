@@ -114,6 +114,48 @@ def clearOne():
 mainFrame = Frame(window, bg='#D4D4D3')
 mainFrame.grid(columnspan=5)
 
+# Page 3
+def goToPage3():
+    global globalPageKey, screenNumber
+    globalPageKey.destroy()
+
+    screenNumber = 3
+
+    finalText = ''
+
+    if ((atmIdText == correctAtmId) and (pinText == correctPin)):
+        finalText = 'Thank You'
+    else:
+        finalText = 'Failed'
+
+    page3 = LabelFrame(mainFrame, bg='Light blue')
+    page3.grid(columnspan=5, ipadx=270, ipady=110, padx=10, pady=10)
+
+    globalPageKey = page3
+    
+    finalText = Label(page3, text=finalText, font=('Courier', 20), bg='Light blue')
+    finalText.place(relx=0.5, rely=0.35, anchor='center')
+
+    def retry():
+        global atmIdText, pinText
+        page3.destroy()
+
+        atmIdText = ""
+        atmIdFieldKey.set(atmIdText)
+        pinText = ""
+        pinFieldKey.set(pinText)
+        
+        goToPage1()
+
+    if ((atmIdText == correctAtmId) and (pinText == correctPin)):
+        exitButton = Button(page3, text='Exit', bg='White', height=2, width=8, command=window.destroy)
+        exitButton.place(relx=0.5, rely=0.65, anchor='center')
+    else:
+        retryButton = Button(page3, text='Retry', bg='white', height=2, width=8,command=lambda:retry())
+        retryButton.place(relx=0.4, rely=0.65, anchor='center')            
+
+        exitButton = Button(page3, text='Exit', bg='White', height=2, width=8, command=window.destroy)
+        exitButton.place(relx=0.6, rely=0.65, anchor='center')
 
 # Page 2
 def goToPage2():
@@ -133,7 +175,7 @@ def goToPage2():
     pinField = Entry(page2, textvariable=pinFieldKey)
     pinField.place(relx=0.6, rely=0.6, anchor='center')
 
-    pinSubmit = Button(page2, text='Submit', bg='White', height=2, width=10)
+    pinSubmit = Button(page2, text='Submit', bg='White', height=2, width=10, command=lambda: goToPage3())
     pinSubmit.place(relx=0.5, rely=0.85, anchor='center')
 
     p2 = Table(page2)
